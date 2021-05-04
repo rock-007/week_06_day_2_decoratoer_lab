@@ -6,7 +6,8 @@ const Room = require('../room.js')
 describe('decorator', function () {
     beforeEach(function(){
         decorator = new Decorator("Adam");
-        paint =new Paint("Red");
+        paint =new Paint("Red", 5);
+        room = new Room("Bedroom", 220)
     });
 
     it('should have a name', function() {
@@ -24,7 +25,18 @@ describe('decorator', function () {
         const actual = decorator.stock;
         assert.strictEqual(actual.length, 1);
     });
-
+    it('calculate liters of paint', function() {
+        decorator.addPaint(paint)
+        const actual = decorator.stock[0].totalLitres;
+        assert.strictEqual(actual, 5);
+    });
+    
+    it('add Room to Decorator', function() {
+        decorator.addPaint(paint)
+        decorator.addDecoratorRoom(room, paint.color)
+        const actual = decorator.roomsDecorated[0];
+        assert.strictEqual(actual.name , "Bedroom");
+    });
 });
 
 
@@ -73,6 +85,6 @@ describe('room', function () {
     it('should be able to be painted', function () {
         room.roomPainted();
         const actual = room.painted;
-        assert.stroctEqual(actual, true);
+        assert.strictEqual(actual, true);
     })
 });
